@@ -3,6 +3,7 @@ package com.mohsintech.supplement_app.service.serviceImpl;
 
 import com.mohsintech.supplement_app.dto.SupplementDto;
 import com.mohsintech.supplement_app.dto.SupplementResponse;
+import com.mohsintech.supplement_app.exception.SupplementNotFoundException;
 import com.mohsintech.supplement_app.model.Supplement;
 import com.mohsintech.supplement_app.repository.SupplementRepository;
 import com.mohsintech.supplement_app.service.SupplementService;
@@ -38,7 +39,7 @@ public class SupplementServiceImpl implements SupplementService {
     @Override
     public SupplementDto getSupplement(int supplementId) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(() ->
-                new RuntimeException("Supplement Not Found"));
+                new SupplementNotFoundException("Supplement To Retrieve Not Found"));
         return mapToDto(supplement);
     }
 
@@ -53,7 +54,7 @@ public class SupplementServiceImpl implements SupplementService {
     @Override
     public SupplementDto updateSupplement(int supplementId, SupplementDto supplementDto) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(() ->
-                new RuntimeException("Supplement Not Found"));
+                new SupplementNotFoundException("Supplement To Update Not Found"));
         //map the supplement retrieved from the repository to DTO received by user.
         Supplement updatedSupplement = Supplement.builder()
                 .id(supplement.getId())
@@ -72,7 +73,7 @@ public class SupplementServiceImpl implements SupplementService {
     @Override
     public void deleteSupplement(int supplementId) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(() ->
-                new RuntimeException("Supplement Not Found"));
+                new SupplementNotFoundException("Supplement To Delete Not Found"));
         supplementRepository.delete(supplement);
     }
 
