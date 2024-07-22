@@ -3,6 +3,8 @@ package com.mohsintech.supplement_app.service.serviceImpl;
 
 import com.mohsintech.supplement_app.dto.SupplementDto;
 import com.mohsintech.supplement_app.dto.SupplementResponse;
+import com.mohsintech.supplement_app.exception.NotFoundException;
+import com.mohsintech.supplement_app.exception.UpdateFailedException;
 import com.mohsintech.supplement_app.model.Supplement;
 import com.mohsintech.supplement_app.repository.SupplementRepository;
 import com.mohsintech.supplement_app.service.SupplementService;
@@ -11,9 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import static com.mohsintech.supplement_app.service.serviceImpl.SupplementServiceHelpers.*;
 
 @Service
 public class SupplementServiceImpl implements SupplementService {
@@ -38,7 +38,7 @@ public class SupplementServiceImpl implements SupplementService {
     @Override
     public SupplementDto getSupplement(int supplementId) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(() ->
-                new RuntimeException("Supplement Not Found"));
+                new NotFoundException("Supplement To Retrieve Not Found"));
         return mapToDto(supplement);
     }
 
@@ -53,7 +53,7 @@ public class SupplementServiceImpl implements SupplementService {
     @Override
     public SupplementDto updateSupplement(int supplementId, SupplementDto supplementDto) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(() ->
-                new RuntimeException("Supplement Not Found"));
+                new UpdateFailedException("Supplement To Update Not Found"));
         //map the supplement retrieved from the repository to DTO received by user.
         Supplement updatedSupplement = Supplement.builder()
                 .id(supplement.getId())
@@ -72,45 +72,10 @@ public class SupplementServiceImpl implements SupplementService {
     @Override
     public void deleteSupplement(int supplementId) {
         Supplement supplement = supplementRepository.findById(supplementId).orElseThrow(() ->
-                new RuntimeException("Supplement Not Found"));
+                new NotFoundException("Supplement To Delete Not Found"));
         supplementRepository.delete(supplement);
     }
 
 
-    //map Supplement class to a DTO(Data Transfer Object) which will be returned to a user.
-    private SupplementDto mapToDto(Supplement supplement){
-        return SupplementDto.builder()
-                .name(supplement.getName())
-                .benefits(supplement.getBenefits())
-                .description(supplement.getDescription())
-                .evidence(supplement.getEvidence())
-                .build();
-    }
 
-    private Supplement mapToEntity(SupplementDto supplementDto){
-        return Supplement.builder()
-                .name(supplementDto.getName())
-                .benefits(supplementDto.getBenefits())
-                .description(supplementDto.getDescription())
-                .evidence(supplementDto.getEvidence())
-                .build();
-    }
-
-    private SupplementResponse mapToResponse(Page<Supplement> page) {
-        //extract content from page retrieved
-        List<SupplementDto> content = page
-                .getContent()
-                .stream()
-                .map(this::mapToDto)
-                .toList();
-        //create the response for the get all supplements request
-        return SupplementResponse.builder()
-                .content(content)
-                .pageNo(page.getNumber())
-                .pageSize(page.getSize())
-                .totalPages(page.getTotalPages())
-                .totalElements(page.getTotalElements())
-                .last(page.isLast())
-                .build();
-    }
 }
