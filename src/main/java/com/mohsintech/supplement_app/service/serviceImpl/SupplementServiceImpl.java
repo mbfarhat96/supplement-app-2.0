@@ -13,8 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import static com.mohsintech.supplement_app.service.serviceImpl.SupplementServiceHelpers.*;
 
 @Service
 public class SupplementServiceImpl implements SupplementService {
@@ -78,40 +77,5 @@ public class SupplementServiceImpl implements SupplementService {
     }
 
 
-    //map Supplement class to a DTO(Data Transfer Object) which will be returned to a user.
-    private SupplementDto mapToDto(Supplement supplement){
-        return SupplementDto.builder()
-                .name(supplement.getName())
-                .benefits(supplement.getBenefits())
-                .description(supplement.getDescription())
-                .evidence(supplement.getEvidence())
-                .build();
-    }
 
-    private Supplement mapToEntity(SupplementDto supplementDto){
-        return Supplement.builder()
-                .name(supplementDto.getName())
-                .benefits(supplementDto.getBenefits())
-                .description(supplementDto.getDescription())
-                .evidence(supplementDto.getEvidence())
-                .build();
-    }
-
-    private SupplementResponse mapToResponse(Page<Supplement> page) {
-        //extract content from page retrieved
-        List<SupplementDto> content = page
-                .getContent()
-                .stream()
-                .map(this::mapToDto)
-                .toList();
-        //create the response for the get all supplements request
-        return SupplementResponse.builder()
-                .content(content)
-                .pageNo(page.getNumber())
-                .pageSize(page.getSize())
-                .totalPages(page.getTotalPages())
-                .totalElements(page.getTotalElements())
-                .last(page.isLast())
-                .build();
-    }
 }
