@@ -11,8 +11,8 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(SupplementNotFoundException.class)
-    public ResponseEntity<ErrorObject> supplementNotFound(SupplementNotFoundException ex, WebRequest webRequest){
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorObject> supplementNotFound(NotFoundException ex, WebRequest webRequest){
         ErrorObject error = ErrorObject.builder()
                 .statusCode(HttpStatus.NOT_FOUND.value())
                 .message(ex.getMessage())
@@ -20,6 +20,17 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UpdateFailedException.class)
+    public ResponseEntity<ErrorObject> supplementUpdateFailedFound(UpdateFailedException ex, WebRequest webRequest){
+        ErrorObject error = ErrorObject.builder()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .message(ex.getMessage())
+                .date(new Date())
+                .build();
+
+        return new ResponseEntity<>(error,HttpStatus.BAD_REQUEST);
     }
 
 
