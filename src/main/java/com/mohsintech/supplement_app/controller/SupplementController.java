@@ -37,13 +37,13 @@ public class SupplementController {
     @PostMapping("supplement/create")
     public ResponseEntity<SupplementDto> createPokemon(@RequestBody SupplementDto supplementDto){
         SupplementDto response = supplementService.createSupplement(supplementDto);
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @PutMapping("supplement/{id}/update")
     public ResponseEntity<SupplementDto> updateSupplement(@PathVariable(value = "id")int supplementId, @RequestBody SupplementDto supplementDto){
         SupplementDto response = supplementService.updateSupplement(supplementId,supplementDto);
-        return new ResponseEntity<>(response,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @DeleteMapping("supplement/{id}/delete")
