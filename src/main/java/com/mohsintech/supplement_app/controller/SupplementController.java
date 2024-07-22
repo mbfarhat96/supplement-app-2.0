@@ -3,6 +3,7 @@ package com.mohsintech.supplement_app.controller;
 import com.mohsintech.supplement_app.dto.SupplementDto;
 import com.mohsintech.supplement_app.dto.SupplementResponse;
 import com.mohsintech.supplement_app.service.SupplementService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +36,13 @@ public class SupplementController {
     }
 
     @PostMapping("supplement/create")
-    public ResponseEntity<SupplementDto> createPokemon(@RequestBody SupplementDto supplementDto){
+    public ResponseEntity<SupplementDto> createPokemon(@Valid @RequestBody SupplementDto supplementDto){
         SupplementDto response = supplementService.createSupplement(supplementDto);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     @PutMapping("supplement/{id}/update")
-    public ResponseEntity<SupplementDto> updateSupplement(@PathVariable(value = "id")int supplementId, @RequestBody SupplementDto supplementDto){
+    public ResponseEntity<SupplementDto> updateSupplement(@PathVariable(value = "id")int supplementId,@Valid @RequestBody SupplementDto supplementDto){
         SupplementDto response = supplementService.updateSupplement(supplementId,supplementDto);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
