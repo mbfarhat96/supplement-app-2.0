@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,15 +15,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+
 @Configuration
 @EnableWebSecurity //this annotation tells Spring that we'll be creating our own security instead of defaults
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
 
+
+
     @Autowired
     public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
+
     }
 
     @Bean
@@ -47,9 +52,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) //must disable csrf for post requests (WILL ADD JWT LATER)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register").permitAll()
-                        .requestMatchers("/api/supplement/**/update").hasRole("USER")
-                        .requestMatchers("/api/supplement/create").hasAnyRole("USER","ADMIN"));
+                        .requestMatchers("/api/auth/**").permitAll())
+                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
