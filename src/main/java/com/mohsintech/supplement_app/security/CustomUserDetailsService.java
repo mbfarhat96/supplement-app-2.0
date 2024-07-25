@@ -23,7 +23,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    /*
+    Notice how at the end of the function below we're returning a User class, this User class is actually implementing
+    the UserDetails class that Spring Security has categorized as a user principal(verified user with authorities). This
+    distinction is important to remember, so we don't get confused with our own UserEntity class which is just a holder
+    for user information retrieved from our database.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() ->
