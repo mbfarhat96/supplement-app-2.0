@@ -29,11 +29,11 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final JWTService jwtService;
+    private final JwtService jwtService;
     private final ApplicationContext context;
 
     @Autowired
-    public JwtFilter(JWTService jwtService, ApplicationContext context){
+    public JwtFilter(JwtService jwtService, ApplicationContext context){
         this.jwtService = jwtService;
         this.context = context;
     }

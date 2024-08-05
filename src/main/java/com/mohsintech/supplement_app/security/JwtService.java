@@ -20,7 +20,7 @@ import java.util.function.Function;
     what's in our database. And it also validates whether a token sent in by a user is valid or not.
  */
 @Service
-public class JWTService {
+public class JwtService {
     //example secret key, NOT GOOD PRACTICE!
     private final String secret_key = "DHSABDUABOWBNOXASXAOUIXNAXNBSAOUBRI3YEGR938Q27GHR3B98B19RD";
 

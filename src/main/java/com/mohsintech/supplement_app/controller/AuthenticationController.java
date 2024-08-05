@@ -6,7 +6,7 @@ import com.mohsintech.supplement_app.model.Role;
 import com.mohsintech.supplement_app.model.UserEntity;
 import com.mohsintech.supplement_app.repository.RoleRepository;
 import com.mohsintech.supplement_app.repository.UserRepository;
-import com.mohsintech.supplement_app.security.JWTService;
+import com.mohsintech.supplement_app.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +29,10 @@ public class AuthenticationController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final AuthenticationManager authenticationManager;
-    private final JWTService jwtService;
+    private final JwtService jwtService;
 
     @Autowired
-    public AuthenticationController(UserRepository userRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, JWTService jwtService) {
+    public AuthenticationController(UserRepository userRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.authenticationManager = authenticationManager;
