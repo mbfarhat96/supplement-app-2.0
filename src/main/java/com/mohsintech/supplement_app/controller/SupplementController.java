@@ -21,13 +21,13 @@ public class SupplementController {
     }
 
     //return one supplement
-    @GetMapping("supplement/{id}")
+    @GetMapping("public/supplement/{id}")
     public ResponseEntity<SupplementDto> getSupplement(@PathVariable(value = "id")int supplementId){
         SupplementDto response = supplementService.getSupplement(supplementId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("supplement")
+    @GetMapping("public/supplement")
     public ResponseEntity<SupplementResponse> getSupplements(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false)int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "5", required = false)int pageSize){
@@ -35,19 +35,19 @@ public class SupplementController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("supplement/create")
+    @PostMapping("private/supplement/create")
     public ResponseEntity<SupplementDto> createPokemon(@Valid @RequestBody SupplementDto supplementDto){
         SupplementDto response = supplementService.createSupplement(supplementDto);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @PutMapping("supplement/{id}/update")
+    @PutMapping("private/supplement/{id}/update")
     public ResponseEntity<SupplementDto> updateSupplement(@PathVariable(value = "id")int supplementId,@Valid @RequestBody SupplementDto supplementDto){
         SupplementDto response = supplementService.updateSupplement(supplementId,supplementDto);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @DeleteMapping("supplement/{id}/delete")
+    @DeleteMapping("private/supplement/{id}/delete")
         public ResponseEntity<String> deleteSupplement(@PathVariable(value = "id")int supplementId){
             supplementService.deleteSupplement(supplementId);
             return new ResponseEntity<>("Deleted Successfully",HttpStatus.OK);
